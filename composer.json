@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "psr-0": {
+      "RoSk0": "src/"
+    }
+  },
+  "require": {
+    "symfony/console": "2.2.*"
+  }
+}
