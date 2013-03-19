@@ -1,6 +1,7 @@
 <?php
 /**
- * @file:
+ * @file
+ * Create sandbox command.
  */
 
 namespace RoSk0\WDH\Command;
@@ -18,12 +19,14 @@ class CreateCommand extends Command
     $this
       ->setName('create')
       ->setDescription('Creates directory, Apache vhost and DB for new sandbox.')
-      ->addArgument('name', InputArgument::REQUIRED, 'Name of sandbox to create. Note that it shouldn\'t contain ".dev" suffix.');
+      ->addArgument('name', InputArgument::REQUIRED, 'Name of sandbox to create. Note that it shouldn\'t contain ".dev" suffix.')
+      ->addOption('nodb', NULL, InputOption::VALUE_NONE, 'Use this option to disable creation of DB for sandbox. ');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $name = $input->getArgument('name');
     $output->writeln($name);
+    var_dump($input->getOption('nodb'));
   }
 }
