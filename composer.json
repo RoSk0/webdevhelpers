@@ -5,6 +5,7 @@
     }
   },
   "require": {
-    "symfony/console": "2.2.*"
+    "symfony/console": "2.2.*",
+    "symfony/filesystem": "2.2.*"
   }
 }

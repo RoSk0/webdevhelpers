@@ -2,8 +2,6 @@
 
 namespace RoSk0\WDH;
 
-
-class RoSk0WDH
-{
+class RoSk0WDH {
 
 }

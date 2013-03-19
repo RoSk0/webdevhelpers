@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateCommand extends Command
-{
-  protected function configure()
-  {
+class CreateCommand extends Command {
+
+  protected function configure() {
     $this
       ->setName('create')
       ->setDescription('Creates directory, Apache vhost and DB for new sandbox.')
@@ -23,8 +22,7 @@ class CreateCommand extends Command
       ->addOption('nodb', NULL, InputOption::VALUE_NONE, 'Use this option to disable creation of DB for sandbox. ');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
+  protected function execute(InputInterface $input, OutputInterface $output) {
     $name = $input->getArgument('name');
     $output->writeln($name);
     var_dump($input->getOption('nodb'));
