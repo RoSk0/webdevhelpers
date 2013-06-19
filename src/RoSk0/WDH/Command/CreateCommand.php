@@ -32,9 +32,10 @@ class CreateCommand extends Command {
     parent::__construct($name = NULL);
     $this->user = $_SERVER['USER'];
     $this->user_home = $_SERVER['HOME'];
-    $this->dir = $this->user_home . '/websites';
+    $config = parse_ini_file($this->user_home . '/.wdh/config');
+    $this->dir = $this->user_home . '/' . $config['webroot'];
     $this->suffix = '.dev';
-    $this->wdh_dir = '.webdevhelper';
+    $this->wdh_dir = '.wdh';
     $this->vhost_dir = 'vhost';
   }
 
@@ -57,12 +58,17 @@ class CreateCommand extends Command {
       $output->writeln($this->getSandboxDir());
     }
     if(!$noDB){
-      // @TODO: Replace with configuration.
-      $link = mysqli_connect('localhost', 'root', 'toor');
-
-      if (!mysqli_query($link, 'CREATE DATABASE IF NOT EXISTS `' . $this->getSandboxName() . '`')) {
-        $output->writeln('<error>An error occurred while creating database for sandbox.</error>');
-        throw new \Exception('An error occurred while creating database for sandbox.');
+      $my_cnf = parse_ini_file($this->user_home . '/.my.cnf', NULL, INI_SCANNER_RAW);
+      if($my_cnf) {
+        $link = mysqli_connect('localhost', $my_cnf['user'], $my_cnf['password']);
+        if (!mysqli_query($link, 'CREATE DATABASE IF NOT EXISTS `' . $this->getSandboxName() . '`')) {
+          $output->writeln('<error>An error occurred while creating database for sandbox.</error>');
+          throw new \Exception('An error occurred while creating database for sandbox.');
+        }
+      }
+      else{
+        $output->writeln('<error>An error occurred reading database configuration file.</error>');
+        throw new \Exception('An error occurred reading database configuration file.');
       }
     }
     $this->createHTTPDConf($output);
