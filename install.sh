@@ -101,10 +101,20 @@ pear channel-discover pear.drush.org
 pear install drush/drush
 pear install Console_Table
 
+echo 'Installing Composer...'
+curl -sS https://getcomposer.org/installer | tail -n +2 | php -- --quiet
+echo "#!/bin/bash" > /etc/cron.weekly/wdh
+echo "/opt/webdevhelpers/composer.phar self-update" >> /etc/cron.weekly/wdh
+chmod -v 755 /etc/cron.weekly/wdh
+
+echo 'Installing WDH requirements...'
+composer.phar install
+
 PWD=${PWD##*/}
 cp -r ../$PWD /opt/
 mv /opt/$PWD /opt/webdevhelpers
-chmod 755 -R /opt/webdevhelpers
-echo 'Creaing WDH links...'
+chmod -Rv 755 /opt/webdevhelpers
+echo 'Creating WDH links...'
 ln -svf /opt/webdevhelpers/app/webdevhelper.php /usr/local/bin/wdh
 ln -svf /opt/webdevhelpers/app/webdevhelper.php /usr/local/bin/webdevhelper
+ln -svf /opt/webdevhelpers/composer.phar /usr/local/bin/composer
