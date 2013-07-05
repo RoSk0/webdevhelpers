@@ -3,8 +3,7 @@
 #########################
 #######  CONF  ##########
 #########################
-#TZ=UTC
-TZ=Europe/Kiev
+TZ=UTC
 
 echo 'This is WEB developer helper(WDH) tool.'
 echo 'WDH will install and configure LAMP stack, particulary Apache webserver,'
@@ -81,12 +80,10 @@ else
   chown -v $SUDO_USER:$SUDO_USER /home/$SUDO_USER/$WEBROOT
   echo "webroot=$WEBROOT" > /home/$SUDO_USER/.wdh/config
 fi
-chown -v $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.wdh/config
 sed -i "s/^export APACHE_RUN_USER=.*$/export APACHE_RUN_USER=$SUDO_USER/" /etc/apache2/envvars
 sed -i "s/^export APACHE_RUN_GROUP=.*$/export APACHE_RUN_GROUP=$SUDO_USER/" /etc/apache2/envvars
-chown -v $SUDO_USER:$SUDO_USER /var/lock/apache2/
+chown -v $SUDO_USER /var/lock/apache2/
 mkdir -v /home/$SUDO_USER/.wdh/vhost
-chown -v $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.wdh/vhost
 echo "Include /home/$SUDO_USER/.wdh/vhost/*.conf"  > /etc/apache2/conf.d/wdh
 echo 'Configuration file for Apache "/etc/apache2/conf.d/wdh" created.'
 sudo service apache2 restart
@@ -110,10 +107,11 @@ chmod -v 755 /etc/cron.weekly/wdh
 echo 'Installing WDH requirements...'
 ./composer.phar install
 
+echo 'Changing owner of WDH configuration directory...'
+chown -vR $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.wdh
+
 PWD=${PWD##*/}
-cp -r ../$PWD /opt/
-mv /opt/$PWD /opt/webdevhelpers
-chmod -Rv 755 /opt/webdevhelpers
+mv ../$PWD /opt/webdevhelpers
 echo 'Creating WDH links...'
 ln -svf /opt/webdevhelpers/app/webdevhelper.php /usr/local/bin/wdh
 ln -svf /opt/webdevhelpers/app/webdevhelper.php /usr/local/bin/webdevhelper

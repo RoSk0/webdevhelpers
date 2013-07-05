@@ -19,8 +19,7 @@ wget https://github.com/RoSk0/webdevhelpers/archive/master.zip
 unzip master.zip
 cd webdevhelpers-master/
 sudo ./install.sh
-cd ..
-rm -rf master.zip webdevhelpers-master/
+rm ../master.zip
 </pre>
 
 That's it, you are ready to create you first development website with
