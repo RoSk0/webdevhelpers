@@ -110,8 +110,7 @@ class CreateCommand extends Command {
   <Directory [sandbox_dir]>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
-		Order allow,deny
-		allow from all
+		Require all granted
   </Directory>
 
   # Possible values include: debug, info, notice, warn, error, crit,
