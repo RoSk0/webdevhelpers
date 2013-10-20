@@ -33,7 +33,7 @@ echo 'Now we will install and configure LAMP stack.'
 echo 'Installer will ask you to enter MySQL root password. You can choose any,'
 echo 'but remember it. You will need it one more time during installation.'
 read -p 'Press ANY key to continue...'
-apt-get install -y apache2 apache2-doc php5 php5-cli php5-gd php-apc php5-mysql curl php5-curl mysql-server-5.5 mysql-client-5.5 git git-doc gitk php-pear php5-xdebug dnsmasq vim vim-common diffuse geany aptitude
+apt-get install -y apache2 apache2-doc php5 php5-cli php5-gd php5-json php5-mysql curl php5-curl mysql-server-5.5 mysql-client-5.5 git git-doc gitk php-pear php5-xdebug dnsmasq vim vim-common diffuse geany aptitude
 
 echo 'Generating MySQL configuration file...'
 ret=1
