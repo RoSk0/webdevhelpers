@@ -56,13 +56,16 @@ do
 done
 
 echo 'Genarating php configuration...'
-echo 'memory_limit = 512M' > /etc/php5/conf.d/99-wdh.ini
-echo 'max_execution_time = 300' > /etc/php5/conf.d/99-wdh.ini
-echo 'max_input_time = 300' > /etc/php5/conf.d/99-wdh.ini
-echo 'date.timezone = $TZ' > /etc/php5/conf.d/99-wdh.ini
-echo 'xdebug.remote_enable=1' > /etc/php5/conf.d/99-wdh.ini
-echo 'xdebug.cli_color=1' > /etc/php5/conf.d/99-wdh.ini
-echo '/etc/php5/conf.d/99-wdh.ini created.'
+echo 'memory_limit = 512M' > /etc/php5/conf.d/wdh.ini
+echo 'max_execution_time = 300' > /etc/php5/conf.d/wdh.ini
+echo 'max_input_time = 300' > /etc/php5/conf.d/wdh.ini
+echo 'date.timezone = $TZ' > /etc/php5/conf.d/wdh.ini
+echo 'xdebug.remote_enable = 1' > /etc/php5/conf.d/wdh.ini
+echo 'xdebug.cli_color = 1' > /etc/php5/conf.d/wdh.ini
+echo 'disable_functions = ' > /etc/php5/conf.d/wdh.ini
+ln -s /etc/php5/conf.d/wdh.ini /etc/php5/cli/conf.d/99-wdh.ini
+ln -s /etc/php5/conf.d/wdh.ini /etc/php5/apache2/conf.d/99-wdh.ini
+echo '/etc/php5/conf.d/wdh.ini created.'
 
 echo 'Generating APACHE configuration...'
 echo 'Enabling apache mod_rewrite.'
