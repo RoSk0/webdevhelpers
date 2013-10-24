@@ -1,17 +1,17 @@
 Description
 ===========
 
-This is web developer helper(WDH) tools. It would be usefull in situations when
+This is web developer helper(WDH) tools. It would be useful in situations when
 you just install Ubuntu(and others in future) system and have no time for
 tuning it.
-It will install and configure LAMP stack, particulary Apache webserver, MySQL
+It will install and configure LAMP stack, particularly Apache web-server, MySQL
 server, PHP, drush and composer.
 
 Installation
 ============
 
 
-Open terminall.
+Open terminal.
 Copy following and paste to terminal window:
 
 <pre>
