@@ -64,6 +64,7 @@ echo 'xdebug.remote_enable = 1' >> /etc/php5/mods-available/wdh.ini
 echo 'xdebug.cli_color = 1' >> /etc/php5/mods-available/wdh.ini
 echo 'disable_functions = ' >> /etc/php5/mods-available/wdh.ini
 echo 'display_errors = On' >> /etc/php5/mods-available/wdh.ini
+echo 'error_reporting = E_ALL' >> /etc/php5/mods-available/wdh.ini
 echo 'session.gc_maxlifetime = 86400' >> /etc/php5/mods-available/wdh.ini
 php5enmod wdh
 echo '/etc/php5/mods-available/wdh.ini created.'
