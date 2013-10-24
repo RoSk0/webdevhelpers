@@ -89,7 +89,7 @@ sed -i "s/^export APACHE_RUN_USER=.*$/export APACHE_RUN_USER=$SUDO_USER/" /etc/a
 sed -i "s/^export APACHE_RUN_GROUP=.*$/export APACHE_RUN_GROUP=$SUDO_USER/" /etc/apache2/envvars
 chown -v $SUDO_USER /var/lock/apache2/
 mkdir -v /home/$SUDO_USER/.wdh/vhost
-echo "Include /home/$SUDO_USER/.wdh/vhost/*.conf"  > /etc/apache2/conf-enabled/wdh.conf
+echo "IncludeOptional /home/$SUDO_USER/.wdh/vhost/*.conf"  > /etc/apache2/conf-enabled/wdh.conf
 echo 'Configuration file for Apache "/etc/apache2/conf-enabled/wdh.conf" created.'
 sudo service apache2 restart
 
