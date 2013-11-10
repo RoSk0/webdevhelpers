@@ -62,6 +62,7 @@ echo 'max_input_time = 300' >> /etc/php5/mods-available/wdh.ini
 echo 'date.timezone = $TZ' >> /etc/php5/mods-available/wdh.ini
 echo 'xdebug.remote_enable = 1' >> /etc/php5/mods-available/wdh.ini
 echo 'xdebug.cli_color = 1' >> /etc/php5/mods-available/wdh.ini
+echo 'xdebug.coverage_enable = 0' >> /etc/php5/mods-available/wdh.ini
 echo 'disable_functions = ' >> /etc/php5/mods-available/wdh.ini
 echo 'display_errors = On' >> /etc/php5/mods-available/wdh.ini
 echo 'error_reporting = E_ALL' >> /etc/php5/mods-available/wdh.ini
