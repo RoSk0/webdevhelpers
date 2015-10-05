@@ -2,9 +2,9 @@
   $addr = '127.0.0.1';
   $port = 9000;
   $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-  socket_bind($socket,$addr,$port) or die("Can't bind socket!");
+  socket_bind($socket,$addr,$port) or die("Can't bind socket!\n");
   socket_listen($socket);
   $client = socket_accept($socket);
-  echo "Connection established: $client";
+  echo "Connection established: $client.\n";
   socket_close($client);
   socket_close($socket);

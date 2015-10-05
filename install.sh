@@ -33,9 +33,9 @@ echo 'Now we will install and configure LAMP stack.'
 echo 'Installer will ask you to enter MySQL root password. You can choose any,'
 echo 'but remember it. You will need it one more time during installation.'
 read -p 'Press ANY key to continue...'
-apt-get install -y apache2 apache2-doc php5 php5-cli php5-gd php5-json php5-mysql curl php5-curl mysql-server-5.5 mysql-client-5.5 git git-doc gitk php-pear php5-xdebug dnsmasq vim vim-common diffuse geany aptitude
+apt-get install -y apache2 apache2-doc php5 php5-cli php5-gd php5-json php5-mcrypt php5-mysql curl php5-curl mysql-server-5.5 mysql-client-5.5 git git-doc gitk php-pear php5-xdebug dnsmasq vim vim-common diffuse geany aptitude
 
-echo 'Generating MySQL configuration file...'
+echo 'Generating MySQL configuration files...'
 ret=1
 while [[ $ret != 0 ]]
 do
@@ -54,9 +54,18 @@ do
       chown -v $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.my.cnf
   fi
 done
+echo '[mysqld]' >> /etc/mysql/conf.d/wdh.cnf
+echo 'innodb_file_per_table = 1' >> /etc/mysql/conf.d/wdh.cnf
+echo 'open_files_limit = 20000' >> /etc/mysql/conf.d/wdh.cnf
+# This must be set in my.cnf directly.
+#echo 'log_bin =' >> /etc/mysql/conf.d/wdh.cnf
+#echo 'log_bin_index =' >> /etc/mysql/conf.d/wdh.cnf
+
 
 echo 'Genarating php configuration...'
-echo 'memory_limit = 512M' > /etc/php5/mods-available/wdh.ini
+echo 'memory_limit = 1G' >> /etc/php5/mods-available/wdh.ini
+echo 'post_max_size = 128M' >> /etc/php5/mods-available/wdh.ini
+echo 'upload_max_filesize = 128M' >> /etc/php5/mods-available/wdh.ini
 echo 'max_execution_time = 300' >> /etc/php5/mods-available/wdh.ini
 echo 'max_input_time = 300' >> /etc/php5/mods-available/wdh.ini
 echo 'date.timezone = $TZ' >> /etc/php5/mods-available/wdh.ini
@@ -67,6 +76,7 @@ echo 'disable_functions = ' >> /etc/php5/mods-available/wdh.ini
 echo 'display_errors = On' >> /etc/php5/mods-available/wdh.ini
 echo 'error_reporting = E_ALL' >> /etc/php5/mods-available/wdh.ini
 echo 'session.gc_maxlifetime = 86400' >> /etc/php5/mods-available/wdh.ini
+echo 'apc.shm_size = 256M' >> /etc/php5/mods-available/wdh.ini
 php5enmod wdh
 echo '/etc/php5/mods-available/wdh.ini created.'
 
@@ -90,11 +100,15 @@ sed -i "s/^export APACHE_RUN_USER=.*$/export APACHE_RUN_USER=$SUDO_USER/" /etc/a
 sed -i "s/^export APACHE_RUN_GROUP=.*$/export APACHE_RUN_GROUP=$SUDO_USER/" /etc/apache2/envvars
 chown -v $SUDO_USER /var/lock/apache2/
 mkdir -v /home/$SUDO_USER/.wdh/vhost
-echo "IncludeOptional /home/$SUDO_USER/.wdh/vhost/*.conf"  > /etc/apache2/conf-enabled/wdh.conf
-echo 'Configuration file for Apache "/etc/apache2/conf-enabled/wdh.conf" created.'
+echo "IncludeOptional /home/$SUDO_USER/.wdh/vhost/*.conf"  > /etc/apache2/sites-available/wdh.conf
+echo 'Configuration file for Apache "/etc/apache2/sites-available/wdh.conf" created.'
+a2ensite wdh.conf
 sudo service apache2 restart
 
 echo 'Generation configuration for DNSmasq...'
+echo 'nameserver 8.8.8.8' >> /etc/dnsmasq.resolv.conf
+echo 'nameserver 8.8.4.4' >> /etc/dnsmasq.resolv.conf
+echo 'resolv-file=/etc/dnsmasq.resolv.conf' >> /etc/dnsmasq.d/wdh
 echo 'address=/dev/127.0.0.1' >> /etc/dnsmasq.d/wdh
 echo 'Configuration file for DNSmasq "/etc/dnsmasq.d/wdh" created.'
 service dnsmasq restart
@@ -109,6 +123,10 @@ curl -sS https://getcomposer.org/installer | tail -n +2 | php -- --quiet
 echo "#!/bin/bash" > /etc/cron.weekly/wdh
 echo "/opt/webdevhelpers/composer.phar self-update" >> /etc/cron.weekly/wdh
 chmod -v 755 /etc/cron.weekly/wdh
+
+# http://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+# To check /proc/sys/fs/inotify/max_user_watches
+echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/20-wdh.conf
 
 echo 'Installing WDH requirements...'
 ./composer.phar install

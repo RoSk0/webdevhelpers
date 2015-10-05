@@ -26,6 +26,7 @@ class CreateCommand extends Command {
   private $user_home;
   private $wdh_dir;
   private $vhost_dir;
+  private $fqdn;
 
 
   function __construct($name = NULL) {
@@ -44,12 +45,14 @@ class CreateCommand extends Command {
       ->setName('create')
       ->setDescription('Creates directory, Apache vhost and DB for new sandbox.')
       ->addArgument('name', InputArgument::REQUIRED, 'Name of sandbox to create. Note that it shouldn\'t contain ".dev" suffix.')
-      ->addOption('nodb', NULL, InputOption::VALUE_NONE, 'Use this option to disable creation of DB for sandbox.');
+      ->addOption('nodb', NULL, InputOption::VALUE_NONE, 'Use this option to disable creation of DB for sandbox.')
+      ->addOption('fqdn', NULL, InputOption::VALUE_NONE, 'Mark provided argument as FQDN(no suffix will be appended).');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     $this->setSandboxName($input->getArgument('name'));
     $noDB = $input->getOption('nodb');
+    $this->fqdn = $input->getOption('fqdn');
     $fs = new Filesystem();
     try {
       $fs->mkdir($this->getSandboxDir());
@@ -127,7 +130,7 @@ class CreateCommand extends Command {
   }
 
   protected function getSandboxName() {
-    return $this->sanboxName . $this->suffix;
+    return $this->fqdn ? $this->sanboxName : $this->sanboxName . $this->suffix;
   }
 
   protected function getHTTPDConfDir() {
