@@ -20,7 +20,7 @@ fi
 
 echo 'Setting up sudo config...'
 echo "Defaults:${SUDO_USER}  !requiretty" >> /etc/sudoers.d/wdh
-echo "${SUDO_USER} ALL=(ALL)  NOPASSWD: ALL" > /etc/sudoers.d/wdh
+echo "${SUDO_USER} ALL=(ALL)  NOPASSWD: ALL" >> /etc/sudoers.d/wdh
 echo '/etc/sudoers.d/wdh created.'
 
 echo 'Granting access to home directory..'
