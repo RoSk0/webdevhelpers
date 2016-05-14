@@ -147,7 +147,7 @@ path
   # Enrich the bash startup file with completion and aliases.
   /home/${SUDO_USER}/bin/drush -y init
 
-  chown -vR ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.drush
+  chown -R ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.drush
 
   echo 'Adding weekly task to update Drush...'
   install_weekly_task 'drush' "php -r \"readfile('http://files.drush.org/drush.phar');\" > /home/${SUDO_USER}/bin/drush && chmod +x /home/${SUDO_USER}/bin/drush"
