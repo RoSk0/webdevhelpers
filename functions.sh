@@ -161,6 +161,7 @@ function install_drupal_console() {
   echo "source \$HOME/.console/console.rc 2>/dev/null" >> /home/${SUDO_USER}/.bashrc
   /home/${SUDO_USER}/bin/drupal check
   install_weekly_task 'drupal_console' "/home/${SUDO_USER}/bin/drupal self-update"
+  chown -R ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.console
 }
 
 function install_composer() {
