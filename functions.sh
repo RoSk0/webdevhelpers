@@ -54,7 +54,7 @@ function install_mysql {
 
 function install_php {
   echo 'Installing PHP...'
-  apt-get install -y php php-cli php-gd php-json php-mcrypt php-mysql curl php-curl php-pear php-xdebug
+  apt-get install -y php php-cli php-gd php-json php-mcrypt php-mysql curl php-curl php-pear php-xdebug php-mbstring
 
   echo 'Genarating php configuration...'
   echo 'memory_limit = 1G' >> /etc/php/7.0/mods-available/wdh.ini
